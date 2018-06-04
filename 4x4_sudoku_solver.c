@@ -5,7 +5,7 @@
 Author: Srivatsan
 Date: 03/06/2018 
 A 4x4 sudoku solver built during tea time this evening :)
-Change Init function to try different sudoku problems
+Change init function to try different sudoku problems
 
 */
 
@@ -27,19 +27,34 @@ int dispKer(int (*ker)[2])
 
 }
 
-int init(){
-	int ret=1, i, j, k; 
+int init(int def){// call with 0 for custom input problem
+	int ret=1, i, j, k, n;
 	for (i=0; i<size; i++)
 	for (j=0; j<size; j++){
+		
 		box[i][j] = -1; 
 	}
 	//problem init - 
+	if (def){
 		box[0][1]=3;
 		box[0][2]=4;
 		box[1][3]=2;
 		box[2][3]=4;
 		box[3][1]=4;
-		box[3][2]=2;	
+		box[3][2]=2;		
+	}
+	else
+		{
+			
+			printf("Enter 4x4 Sudoku problem (Enter -1 for empty spaces)\n\n");  
+			for (i=0; i<size; i++)
+			for (j=0; j<size; j++){
+				scanf("%d",&n); 
+				if(n!=-1)
+				box[i][j] = n; 
+			}
+		}
+	
 	if (box==NULL)
 	ret = 0; 
 	return (ret); 
@@ -193,12 +208,15 @@ int disp_board(){
 }
 
 int main(){
-	int i, j, k, num, l1, l2, nos[4] ={1, 2, 3, 4}, cnt=0, str, *strpos, t;
+	int i, j, k, num, l1, l2, nos[4] ={1, 2, 3, 4}, cnt=0, str, *strpos, t, def;
 	char ch;
 	int adjr[step][step], adjc[step][step], kernel[step][step], *pos; 
 	int solved = 0; 
 	int nr, nc;
-	if(!init(box)){
+	printf("Enter 0 for custom problem 1 otherwise \n"); 
+	scanf("%d", &def); 
+	
+	if(!init(def)){
 		printf("Memory Unavailable\n");
 		exit(1);  //erroneous exit
 	}  
